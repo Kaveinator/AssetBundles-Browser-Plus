@@ -62,7 +62,7 @@ public class GenericDictionary<TKey, TValue> : IDictionary<TKey, TValue>, ISeria
     // IDictionary
     public TValue this[TKey key]
     {
-        get => dict[key];
+        get { return dict[key]; }
         set
         {
             dict[key] = value;

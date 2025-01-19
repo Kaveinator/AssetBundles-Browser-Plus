@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace AssetBundleBrowser.AssetBundleDataSource
 {
@@ -125,7 +124,7 @@ namespace AssetBundleBrowser.AssetBundleDataSource
                     string path = AssetDatabase.GUIDToAssetPath(guid);
                     path = path.Replace($@"Assets/", $"{Application.dataPath}/");
                     path = path.Replace($@"/{scriptName}.cs", string.Empty);
-                    string defaultFolder = @$"{path}/../Default/";
+                    string defaultFolder = $@"{path}/../Default/";
                     try
                     {
                         var files = new DirectoryInfo(defaultFolder).GetFiles("*.asset", SearchOption.AllDirectories);
@@ -151,7 +150,11 @@ namespace AssetBundleBrowser.AssetBundleDataSource
         public void Save()
         {
             EditorUtility.SetDirty(this);
+#if UNITY_2020_3_OR_NEWER
             AssetDatabase.SaveAssetIfDirty(this);
+#else
+            AssetDatabase.SaveAssets();
+#endif
             AssetDatabase.Refresh();
         }
 
@@ -171,7 +174,8 @@ namespace AssetBundleBrowser.AssetBundleDataSource
         {
             if (string.IsNullOrEmpty(assetPath)) return null;
 
-            this._dictBuildBundleInfo.TryGetValue(assetPath, out var buildBundleInfo);
+            BuildBundleInfo buildBundleInfo;
+            this._dictBuildBundleInfo.TryGetValue(assetPath, out buildBundleInfo);
             return buildBundleInfo;
         }
 

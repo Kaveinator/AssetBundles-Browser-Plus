@@ -257,7 +257,7 @@ namespace AssetBundleBrowser
                                 menu.AddSeparator("");
 
                             var counter = index;
-                            menu.AddItem(new GUIContent(@$"{ds.Name} ({ds.ProviderName})"), false,
+                            menu.AddItem(new GUIContent($@"{ds.Name} ({ds.ProviderName})"), false,
                                 () =>
                                 {
                                     m_DataSourceIndex = counter;
